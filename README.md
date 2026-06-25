@@ -171,18 +171,6 @@ Final output = **1000 verified companies**
 
 ---
 
-## 🛠 Tools Used
-
-- Python (data processing & scraping logic)  
-- Playwright (website scraping)  
-- Claude Haiku (bulk scoring)  
-- Claude Sonnet (deep evaluation)  
-- LinkedIn Sales Navigator  
-- MCA / DSIR / Expo datasets  
-- Google Sheets / PostgreSQL (tracking & QA)  
-
----
-
 ## 📅 Timeline (30 Days)
 
 - Week 1: Universe building  
