@@ -1,156 +1,151 @@
-📌 1000 Company Proposal (Federer ICP – DeepThought)
-Goal
+###📌 1000 Company Proposal – Federer ICP (DeepThought)
+##Objective
 
-Build a verified list of 1000 companies matching DeepThought’s Federer ICP — Indian specialty manufacturers with ₹50Cr–₹500Cr revenue, promoter-driven structure, differentiated product offerings, technical decision-making presence, and active growth signals — within 30 calendar days.
+Build a verified dataset of 1000 Indian specialty manufacturing companies that match the Federer ICP:
 
-The focus is precision over volume, ensuring every company is backed by multi-source evidence across 6 ICP dimensions.
+Revenue: ₹50Cr – ₹500Cr
+Promoter-driven ownership
+Manufacturing-focused (not trading/distribution)
+Differentiated / technically strong products
+Active growth signals (hiring, expansion, exports)
 
-Key Constraints
-Quality over volume → 1000 verified companies, not scraped dumps
-Expected yield: ~30% (from ~3500–4000 sourced universe)
-Every company must include 6-dimension ICP scoring with evidence
-Sources must be traceable and deduplicated
-System Overview (Funnel Design)
+This is a high-precision pipeline (~30% expected yield) built from a raw universe of ~3500–4000 companies.
 
+##🧭 System Overview
 Raw Universe (3500–4000 companies)
-    ↓
-Hard Pre-Filters (rule-based elimination)
-    ↓
+        ↓
+Hard Pre-Filters (rule-based cleanup)
+        ↓
 Screened Pool (2000–2500 companies)
-    ↓
-AI-Based ICP Scoring (6 criteria evaluation)
-    ↓
-First-pass Qualified Set (1200–1400 companies)
-    ↓
+        ↓
+AI ICP Scoring (6-dimension model)
+        ↓
+First-pass Qualified (1200–1400 companies)
+        ↓
 Human QA (borderline + low confidence cases)
-    ↓
+        ↓
 Final Verified Dataset (1000 companies)
+📊 ICP Definition (Scoring Framework)
 
-Sourcing the Universe (Week 1)
-
-Objective: Build a high-signal raw universe of 3500–4000 companies
-
-Source 1: DSIR Recognized R&D Units
-Maintained by Department of Scientific & Industrial Research
-Signals: strong indicator of R&D capability (C3) and technical leadership (C4)
-Expected yield: ~800–1000 companies
-Limitation: Skewed toward older, established firms
-Source 2: Industry Expo Exhibitor Lists
-
-Examples: CPHI India, IMTEX, ELECRAMA, BioAsia, PackEx
-
-Signals: paid participation → growth intent (C6)
-Expected yield: ~600–800 companies
-Limitation: biased toward marketing-budget-enabled firms
-Source 3: BSE SME / NSE Emerge Listings
-Signals: verified financial disclosures, revenue visibility
-Enables direct mapping to ₹50Cr–₹500Cr band
-Expected yield: ~400–500 companies
-Limitation: excludes unlisted MSMEs (major ICP segment gap)
-Source 4: USFDA / EU-GMP / WHO-GMP Approved Facilities
-Signals: compliance-driven manufacturing + export readiness (C1, C5)
-Expected yield: ~300–400 companies
-Limitation: pharma-heavy distribution bias
-Source 5: Industry Association Directories
-
-ACMA, CII, FICCI, IDMA, ELCINA, etc.
-
-Signals: validated industry participation
-Expected yield: ~500–600 companies
-Limitation: overlap with other datasets
-Source 6: MCA (Ministry of Corporate Affairs)
-Full registry of Indian companies with NIC classification + directors + capital structure
-Signals: foundational corporate verification layer
-Expected yield: ~1000–1500 companies
-Limitation: noisy NIC coding + outdated classifications
-Source 7: LinkedIn Sales Navigator
-Reverse mapping via founders / CXOs in manufacturing sectors
-Signals: technical leadership presence (C4) + hiring activity
-Expected yield: ~300–400 companies
-Limitation: self-reported data inaccuracies
-Week 1 Output
-
-After deduplication across sources:
-
-👉 ~3500–4000 unique companies
-Fields: company name, website (~60%), city, segment tag
-
-Remaining ~40% require automated website discovery via search + enrichment.
-
-Automated ICP Scoring (Week 2–3)
-Website Data Extraction
-
-For each company:
-
-Homepage
-About / Leadership
-Product pages
-News / Press
-Careers / Jobs
-Contact pages
-
-Tech: Playwright-based scraper (~8K tokens per company)
-
-ICP Scoring Model (6 Dimensions)
-
-Each company evaluated on:
+Each company is evaluated across 6 dimensions (0–10 each):
 
 C1: Manufacturing authenticity
 C2: Revenue fit (₹50Cr–₹500Cr)
 C3: Differentiation (R&D / IP / specialization)
 C4: Technical decision-maker presence
-C5: Market tailwinds / export orientation
-C6: Growth signals (hiring, expansion, news)
+C5: Market tailwinds / sector strength
+C6: Growth signals (hiring, expansion, activity)
 
-Output: structured JSON with scores + evidence + confidence flags
+Total Score: /60
+Each score must include evidence + confidence level
 
-Scoring Pipeline
-Scrape website data
+##🌐 Data Sources (Universe Building)
+1. DSIR Recognized R&D Units
+Strong signal for R&D capability and technical maturity
+Yield: ~800–1000 companies
+Limitation: older firms dominate
+2. Industry Expos
+
+(CPHI India, IMTEX, ELECRAMA, BioAsia, PackEx)
+
+Signal: growth intent + market participation
+Yield: ~600–800 companies
+Limitation: marketing-budget bias
+3. BSE SME / NSE Emerge
+Signal: validated financials + revenue visibility
+Yield: ~400–500 companies
+Limitation: excludes private MSMEs
+4. USFDA / EU-GMP / WHO-GMP Facilities
+Signal: export readiness + compliance manufacturing
+Yield: ~300–400 companies
+Limitation: pharma-heavy bias
+5. Industry Associations
+
+(ACMA, CII, FICCI, IDMA, ELCINA)
+
+Signal: verified industry participation
+Yield: ~500–600 companies
+Limitation: overlaps with other datasets
+6. MCA Database
+Signal: full company registry + NIC classification
+Yield: ~1000–1500 companies
+Limitation: noisy classification data
+7. LinkedIn Sales Navigator
+Signal: founder / technical leadership mapping
+Yield: ~300–400 companies
+Limitation: self-reported inaccuracies
+⚙️ Processing Pipeline
+Step 1: Universe Creation
+
+Combine all sources into a raw dataset (~3500–4000 companies)
+
+Step 2: Pre-Filtering
+
+Remove:
+
+No website companies
+Traders / distributors
+Empty / parked domains
+Clearly out-of-range revenue entities
+Step 3: Website Enrichment
+
+Scrape:
+
+Homepage
+About / Leadership
+Products
+Careers / News / Press
+Step 4: AI Scoring
 Claude Haiku → first-pass scoring
 Claude Sonnet → borderline re-evaluation
-Store structured output in master dataset
-Flag low-confidence cases for QA
-Hard Pre-Filters (Before AI Layer)
-No website available
-Parked / empty websites (<2 pages or <500 chars)
-Traders / distributors (keyword-based exclusion)
-Revenue > ₹500Cr (if identifiable)
-Expected Yield Flow
+Output structured JSON scores + evidence
+Step 5: Human QA
 
-Raw Universe → 3500–4000
-After filtering → 2000–2500
-After AI scoring → 1200–1400
-After QA → 1000 verified companies
+Review:
 
-Human QA Layer (Week 3–4)
-Failure Modes Addressed
-C3 inflation (false R&D signals)
-C4 misclassification (non-technical founders)
-C6 stale growth signals (old news misread as active)
-Manufacturing misclassification (service vs production ambiguity)
-QA Process
-Auto-flag borderline cases (score 40–42 range)
-Manual review (~300–400 companies)
+Low-confidence entries
+Borderline scores (40–42 range)
+Manufacturing validation checks
+Step 6: Final Dataset
+
+Finalize 1000 verified companies
+
+🔍 Quality Control Strategy
+Automated Filters
+Remove traders / distributors (keyword + rule-based)
+Remove invalid or empty websites
+Deduplicate across sources
+AI Validation
+Cross-check scoring consistency
+Flag contradictory evidence
+Human QA
+Manual verification of ~300–400 companies
 Validate:
-actual manufacturing proof
+manufacturing proof
 leadership credibility
-active business signals
-Final Deliverables
+growth signals
+📈 Expected Yield
+Stage	Output
+Raw Universe	3500–4000
+After Filtering	2000–2500
+After AI Scoring	1200–1400
+Final Verified List	1000 companies
+📦 Final Deliverables
 1000 verified ICP-qualified companies
-6-dimension scored dataset with evidence
-Top 200 priority accounts (outreach-ready tiering)
-Full methodology + source attribution breakdown
+6-dimension scoring with evidence for each company
+Top 200 priority accounts (outreach-ready tier)
+Full methodology documentation
 QA audit log (accept/reject reasoning)
-Tools & Stack
-Playwright (scraping layer)
-Python (ETL + pipeline logic)
+🛠 Tech Stack
+Python (data pipeline & processing)
+Playwright (web scraping)
 Claude Haiku (bulk scoring)
 Claude Sonnet (deep evaluation)
-MCA / DSIR / LinkedIn / Expo datasets
-Google Sheets / PostgreSQL (storage + QA tracking)
-Timeline (30 Days)
-
-Week 1 → Universe creation
-Week 2 → Scraping + filtering
-Week 3 → AI scoring + refinement
-Week 4 → Human QA + final assembly
+LinkedIn Sales Navigator
+MCA / DSIR / Expo datasets
+Google Sheets / PostgreSQL (tracking & QA)
+📅 Timeline (30 Days)
+Week 1: Universe building (3500–4000 companies)
+Week 2: Data cleaning + enrichment
+Week 3: AI scoring + filtering
+Week 4: Human QA + final datase
